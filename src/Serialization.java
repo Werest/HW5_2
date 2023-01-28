@@ -1,7 +1,4 @@
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class Serialization {
     public static boolean saveGame(String path, GameProgress gameProgress){
@@ -15,5 +12,13 @@ public class Serialization {
         }
     }
 
+    public static GameProgress openProgress(File file){
+        try (FileInputStream fileInputStream       = new FileInputStream(file);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+            return (GameProgress) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
